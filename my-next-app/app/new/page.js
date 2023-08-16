@@ -1,12 +1,32 @@
-import Link from 'next/link'
+import { redirect } from "next/navigation"
+import Link from "next/link"
+import { prisma } from "../db"
 
+
+async function createTodo (data) {
+  'use server'
+
+  const title = data.get("title")?.valueOf()
+  let error = false
+  if (typeof title !== "string" || title.length === 0) {
+    throw new Error('invalid title')
+  }
+
+  await prisma.todo.create({ data: {
+    title: title,
+    complete: false
+  }})
+
+  redirect('./')
+
+}
 export default function New() {
     return (
       <>
     <header className="flex justify-between items-center mb-4">
         <h1 className="text-2xl">New</h1>
       </header>
-      <form  className="flex gap-2 flex-col">
+      <form action={createTodo} className="flex gap-2 flex-col">
         <input
           type="text"
           name="title"

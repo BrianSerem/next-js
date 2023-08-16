@@ -1,11 +1,8 @@
 'use client'
 
+import { FaTimes } from 'react-icons/fa'
 
-export default function TodoItem ( { id, title, complete })  {
-
-    const toggleTodo = (id, value) => {
-
-    }
+export default async function TodoItem ( { id, title, complete, toggleTodo, onDelete })  {
 
   return (
     <li className="flex gap-1 items-center">
@@ -13,8 +10,8 @@ export default function TodoItem ( { id, title, complete })  {
         id={id}
         type="checkbox"
         className="cursor-pointer peer"
-        // defaultChecked={complete}
-        // onChange={e => toggleTodo(id, e.target.checked)}
+        defaultChecked={complete}
+        onChange={e => toggleTodo(id, e.target.checked)}
       />
       <label
         htmlFor={id}
@@ -22,7 +19,14 @@ export default function TodoItem ( { id, title, complete })  {
       >
         {title}
       </label>
+      < FaTimes  style = {deleteStyle } onClick={() => onDelete(id)}/>
     </li>
   )
 }
 
+const deleteStyle = {
+  color: 'yellow',
+  cursor: 'pointer',
+  align: 'right'
+
+}
